@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Sobre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div style="padding:16px 16px 0;">
+        <a class="back" href="menu.html" style="color:var(--blue-600);"><span id="back-icon"></span></a>
+      </div>
+      <div class="about-screen">
+        <div class="owl-lg" id="owl-lg" style="color:var(--blue-600);margin:0 auto 12px;"></div>
+        <div class="brand">Athenium</div>
+        <p class="version">Versão 0.0.0 (000)</p>
+        <a class="terms" href="#">Termos de uso</a>
+        <p class="about-desc">Sistema construído com dedicação pelos alunos de Ciência da Computação do IFMA.</p>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("menu");
+  document.getElementById("back-icon").innerHTML = ICONS.back;
+  document.getElementById("owl-lg").innerHTML = owlSVG(78);
+</script>
+</body>
+</html>

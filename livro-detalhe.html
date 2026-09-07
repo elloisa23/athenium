@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Detalhe do livro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="app-header">
+        <a class="back" href="meus-livros.html"><span id="back-icon"></span>Meus Livros</a>
+      </div>
+      <div class="content book-detail" id="detail-root"></div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("livros");
+  document.getElementById("back-icon").innerHTML = ICONS.back;
+
+  const state = loadState();
+  const params = new URLSearchParams(location.search);
+  let book = state.books.find(b => b.id === params.get("id"));
+  if(!book) book = state.books.find(b => b.status === "pendente") || state.books[0];
+
+  const root = document.getElementById("detail-root");
+  const isPending = book.status === "pendente";
+
+  root.innerHTML = `
+    <div class="status-banner">${isPending ? "Devolução Pendente" : "Em Andamento"}</div>
+    <div class="book-title-lg">${book.title}</div>
+    <div class="book-cover-hero" style="background:${book.color};display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:38px;font-weight:700;">
+      ${initials(book.title)}
+    </div>
+    ${isPending ? `<button class="warn-btn">Hora de devolver este livro!</button>` : `<div class="row-sub" style="margin-bottom:16px;">Prazo até ${formatBR(book.dueDate)}</div>`}
+    <p class="fine-note">*Lembre-se de devolver este livro dentro do prazo estipulado. O atraso poderá gerar cobrança de multa e suspender temporariamente o acesso a novos empréstimos e recursos da biblioteca. Evite transtornos e continue aproveitando a leitura com responsabilidade.</p>
+  `;
+</script>
+</body>
+</html>

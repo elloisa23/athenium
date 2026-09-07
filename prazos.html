@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Prazos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="header-row">
+          <h1>Prazos</h1>
+        </div>
+        <p class="eyebrow" style="text-align:right;margin-top:-18px;">exibir por períodos ↦</p>
+      </div>
+
+      <div class="content">
+        <div class="calendar-card">
+          <div class="calendar-head">
+            <button id="prev-month"></button>
+            <span id="month-label"></span>
+            <button id="next-month"></button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+
+        <div class="day-detail" id="day-detail">
+          <div class="date-label">Selecione um dia</div>
+          <div class="empty">Nenhum registro para este dia</div>
+        </div>
+
+        <a class="section-link" href="emprestimos.html" style="margin-top:18px;">ver empréstimos por período</a>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("prazos");
+  document.getElementById("prev-month").innerHTML = ICONS.chevronLeft;
+  document.getElementById("next-month").innerHTML = ICONS.chevronRight;
+
+  const state = loadState();
+  const { year, month, dueDay, infoDay } = state.calendar;
+  const dueBook = state.books.slice().sort((a,b)=> new Date(a.dueDate)-new Date(b.dueDate))[0];
+
+  const monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  document.getElementById("month-label").textContent = `${monthNames[month]} de ${year}`;
+
+  const grid = document.getElementById("cal-grid");
+  const dow = ["dom","seg","ter","qua","qui","sex","sáb"];
+  dow.forEach(d => grid.innerHTML += `<div class="cal-dow">${d}</div>`);
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+    grid.innerHTML += `<button class="cal-day" disabled></button>`;
+  }
+  for(let day=1; day<=daysInMonth; day++){
+    let cls = "cal-day";
+    if(day === dueDay) cls += " due";
+    else if(day === infoDay) cls += " selectable";
+    grid.innerHTML += `<button class="${cls}" data-day="${day}">${day}</button>`;
+  }
+
+  function selectDay(day){
+    document.querySelectorAll(".cal-day").forEach(el => el.classList.remove("selected"));
+    const btn = document.querySelector(`.cal-day[data-day="${day}"]`);
+    if(btn) btn.classList.add("selected");
+
+    const detail = document.getElementById("day-detail");
+    const label = `${String(day).padStart(2,"0")} de ${monthNames[month].toLowerCase()} ${year}`;
+
+    if(day === dueDay){
+      detail.innerHTML = `
+        <div class="date-label">${label}</div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin:2px 0 10px;">Esse é o último dia para devolver um dos seus livros.</p>
+        <div class="due-alert">
+          ${coverEl(dueBook, "cover-lg")}
+          <div>
+            <div class="book-title">${dueBook.title}</div>
+            <div class="book-author">${dueBook.author}</div>
+            <p style="margin-top:8px;">Relaxa, ainda há tempo para devolver este livro!</p>
+          </div>
+        </div>`;
+    } else if(day === infoDay){
+      detail.innerHTML = `
+        <div class="date-label">${label}</div>
+        <div class="empty">Dia livre de devoluções.</div>`;
+    } else {
+      detail.innerHTML = `
+        <div class="date-label">Selecione um dia</div>
+        <div class="empty">Nenhum registro para este dia</div>`;
+    }
+  }
+
+  grid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".cal-day");
+    if(!btn || btn.disabled) return;
+    selectDay(Number(btn.dataset.day));
+  });
+</script>
+</body>
+</html>

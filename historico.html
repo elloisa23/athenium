@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Histórico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="app-header">
+        <h1>Histórico</h1>
+        <p class="eyebrow" style="margin-top:6px;">Últimos Empréstimos</p>
+      </div>
+      <div class="content">
+        <div class="card" id="history-card"></div>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("historico");
+
+  const state = loadState();
+  const card = document.getElementById("history-card");
+
+  state.history.forEach(h => {
+    card.innerHTML += `
+      <div class="list-row" style="align-items:flex-start;">
+        <div class="cover-lg" style="background:${h.color}">${initials(h.title)}</div>
+        <div>
+          <div class="row-sub">${h.date}</div>
+          <div class="row-sub" style="margin-top:1px;">${h.author}</div>
+          <div class="row-title" style="margin-top:3px;">${h.title}</div>
+          <a href="#" class="section-link" style="text-align:left;margin-top:2px;">leia mais</a>
+        </div>
+      </div>`;
+  });
+</script>
+</body>
+</html>

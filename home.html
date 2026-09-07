@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Início</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="hello-card">
+        <div class="top-row">
+          <div></div>
+          <button class="icon-btn" id="bell-btn" onclick="location.href='notificacoes.html'"></button>
+        </div>
+        <p class="eyebrow" id="greeting-eyebrow">Bem-vindo,</p>
+        <h1 id="greeting-name">!</h1>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-title">Meu rendimento · Leitura Anual</div>
+        <div class="stats-row">
+          <div class="stat read"><b id="stat-read">0</b><span>livros lidos</span></div>
+          <div class="stat unfinished"><b id="stat-unfinished">0</b><span>livros não concluídos</span></div>
+          <div class="stat progress"><b id="stat-progress">0</b><span>em andamento</span></div>
+        </div>
+        <div class="stats-meta" id="stats-meta">informações até —</div>
+      </div>
+
+      <div class="content" style="padding-top:20px;">
+        <div class="card">
+          <div class="flex-between">
+            <div class="section-title">Livros em andamento</div>
+            <span class="row-sub" id="today-pill"></span>
+          </div>
+          <div id="progress-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Devoluções próximas</div>
+          <div id="due-list"></div>
+          <a class="section-link" href="prazos.html">ver todos</a>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  document.getElementById("bell-btn").innerHTML = ICONS.bell;
+  mountNav("inicio");
+
+  const state = loadState();
+  document.getElementById("greeting-name").textContent = "Bem-vindo, " + state.user.name.split(" ")[0] + " " + state.user.name.split(" ")[1] + "!";
+  document.getElementById("greeting-eyebrow").remove();
+
+  const read = state.history.length;
+  const pending = state.books.filter(b => b.status === "pendente").length;
+  const inProgress = state.books.filter(b => b.status === "andamento").length;
+  document.getElementById("stat-read").textContent = read;
+  document.getElementById("stat-unfinished").textContent = pending;
+  document.getElementById("stat-progress").textContent = inProgress;
+  document.getElementById("stats-meta").textContent = "informações até 31/07/2023";
+
+  const today = new Date(2023, 6, 15);
+  document.getElementById("today-pill").textContent = "15 jul";
+
+  const progressList = document.getElementById("progress-list");
+  state.books.filter(b => b.status === "andamento").slice(0,1).forEach(b => {
+    progressList.innerHTML += `
+      <a class="list-row" href="meus-livros.html">
+        ${coverEl(b)}
+        <div>
+          <div class="row-title">${b.title}</div>
+          <div class="row-sub">${b.returnWindow || (formatBR(b.borrowedDate) + " - " + formatBR(b.dueDate))}</div>
+        </div>
+      </a>`;
+  });
+
+  const dueList = document.getElementById("due-list");
+  state.books
+    .slice()
+    .sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .slice(0,2)
+    .forEach(b => {
+      const d = new Date(b.dueDate + "T00:00:00");
+      const day = String(d.getDate()).padStart(2,"0");
+      const monthShort = d.toLocaleDateString("pt-BR",{month:"short"}).replace(".","");
+      dueList.innerHTML += `
+        <a class="list-row" href="livro-detalhe.html?id=${b.id}">
+          <div class="pill-date">${day}<br>${monthShort}</div>
+          ${coverEl(b)}
+          <div class="row-title" style="font-size:12.5px;">${b.title}</div>
+        </a>`;
+    });
+</script>
+</body>
+</html>

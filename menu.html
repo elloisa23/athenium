@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="menu-screen">
+        <div class="menu-top">
+          <span id="owl-mini" class="owl" style="color:var(--blue-600);"></span>
+          <span class="brand">Athenium</span>
+          <div class="menu-user">
+            <b id="menu-user-name"></b>
+            <span id="menu-user-grade"></span><br>
+            <span id="menu-user-reg"></span><br>
+            <a href="sobre.html">precisa de ajuda?</a>
+          </div>
+        </div>
+        <div class="menu-grid">
+          <a class="menu-tile" href="carteira.html"><span class="circle" id="tile-card"></span>Acessar Carteira Digital</a>
+          <a class="menu-tile" href="sobre.html"><span class="circle" id="tile-info"></span>Sobre</a>
+          <a class="menu-tile danger" href="index.html" id="logout-tile"><span class="circle" id="tile-exit"></span>Sair do app</a>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("menu");
+  document.getElementById("owl-mini").innerHTML = owlSVG(30);
+  document.getElementById("tile-card").innerHTML = ICONS.card;
+  document.getElementById("tile-info").innerHTML = ICONS.info;
+  document.getElementById("tile-exit").innerHTML = ICONS.exit;
+
+  const state = loadState();
+  document.getElementById("menu-user-name").textContent = state.user.name;
+  document.getElementById("menu-user-grade").textContent = `${state.user.grade} · ${state.user.course}`;
+  document.getElementById("menu-user-reg").textContent = state.user.registration;
+
+  document.getElementById("logout-tile").addEventListener("click", () => {
+    localStorage.removeItem("athenium_logged_in");
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athenium — Carteira Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="menu-screen">
+        <div class="menu-top">
+          <a href="menu.html" style="color:var(--blue-600);display:flex;" id="back-icon"></a>
+          <span class="owl" id="owl-mini" style="color:var(--blue-600);"></span>
+          <span class="brand">Athenium</span>
+          <div class="menu-user">
+            <b id="c-name"></b>
+            <span id="c-grade"></span><br>
+            <span id="c-reg"></span>
+          </div>
+        </div>
+
+        <div class="content" style="padding-top:26px;">
+          <div class="reader-card">
+            <div class="rc-meta">
+              <span id="owl-card" style="color:#fff;"></span>
+              <span style="font-weight:800;letter-spacing:1px;font-size:12px;">ATHENIUM</span>
+            </div>
+            <div class="rc-title">CARTEIRA DE LEITOR</div>
+            <div class="barcode"></div>
+            <div class="rc-fields" id="rc-fields"></div>
+            <div class="rc-photo" id="rc-photo"></div>
+          </div>
+
+          <div class="wallet-actions-row">
+            <a class="wallet-btn" href="menu.html"><span class="circle" id="w-exit"></span>Voltar ao menu</a>
+            <a class="wallet-btn" href="sobre.html"><span class="circle" id="w-info"></span>Sobre</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="bottom-nav-slot"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+  requireLogin();
+  mountNav("menu");
+  document.getElementById("owl-mini").innerHTML = owlSVG(30);
+  document.getElementById("owl-card").innerHTML = owlSVG(20);
+  document.getElementById("back-icon").innerHTML = ICONS.back;
+  document.getElementById("w-exit").innerHTML = ICONS.home;
+  document.getElementById("w-info").innerHTML = ICONS.info;
+
+  const state = loadState();
+  const u = state.user;
+  document.getElementById("c-name").textContent = u.name;
+  document.getElementById("c-grade").textContent = `${u.grade} · ${u.course}`;
+  document.getElementById("c-reg").textContent = u.registration;
+
+  document.getElementById("rc-fields").innerHTML = `
+    <b>NOME</b> ${u.name}<br><br>
+    <b>ID</b> ${u.readerId}<br><br>
+    <b>VENC.</b> ${u.validUntil}<br><br>
+    <b>SITUAÇÃO</b> ${u.status}`;
+
+  document.getElementById("rc-photo").textContent = u.name.split(" ").map(n=>n[0]).slice(0,2).join("");
+</script>
+</body>
+</html>
