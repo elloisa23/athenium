@@ -224,6 +224,16 @@ body{
   box-shadow:0 12px 24px rgba(21,74,173,0.35);
 }
 .login-logo svg{width:56px;height:56px;}
+.login-logo--img{
+  background:none;
+  box-shadow:none;
+  width:108px;height:108px;
+}
+.login-logo-img{
+  width:100%;height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 12px 20px rgba(21,74,173,0.35));
+}
 .brand-name{
   font-family:var(--font-display);
   font-size:26px;
@@ -518,6 +528,7 @@ body{
 .menu-user b{display:block;font-size:13px;color:var(--ink);}
 .menu-user a{color:var(--blue-600);font-size:11px;}
 .menu-grid{display:flex;justify-content:space-around;padding:30px 10px;}
+.menu-grid--single{justify-content:center;padding:40px 10px;}
 .menu-tile{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:var(--ink-soft);font-size:12px;font-weight:700;}
 .menu-tile .circle{width:58px;height:58px;border-radius:50%;background:var(--paper);box-shadow:var(--shadow-card);display:flex;align-items:center;justify-content:center;}
 .menu-tile .circle svg{width:24px;height:24px;color:var(--blue-600);}

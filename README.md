@@ -14,9 +14,8 @@ step), pronto para publicar direto no GitHub Pages.
 - **Meus Livros** (`meus-livros.html`) — biblioteca pessoal com status "em andamento" / "devolução pendente"
 - **Detalhe do livro** (`livro-detalhe.html`) — tela de devolução pendente com aviso de multa
 - **Histórico** (`historico.html`) — últimos empréstimos já devolvidos
-- **Carteira Digital** (`carteira.html`) — carteirinha de leitor com código de barras
 - **Notificações** (`notificacoes.html`) — avisos recentes e não lidos
-- **Menu** (`menu.html`) e **Sobre** (`sobre.html`)
+- **Menu** (`menu.html`) — dados do usuário e sair do app
 
 ## Como rodar localmente
 
@@ -61,10 +60,9 @@ athenium/
 ├── meus-livros.html        Minha biblioteca
 ├── livro-detalhe.html      Detalhe / devolução pendente
 ├── historico.html          Histórico de empréstimos
-├── carteira.html            Carteira digital de leitor
 ├── notificacoes.html        Notificações
 ├── menu.html                Menu
-├── sobre.html                Sobre o app
+├── assets/                    Imagens (logo)
 ├── css/styles.css            Design system (tokens, componentes)
 └── js/
     ├── data.js               Dados simulados + estado (localStorage)

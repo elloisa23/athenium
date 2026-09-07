@@ -14,7 +14,9 @@
     <div class="notch"></div>
     <div class="screen">
       <div class="login-screen">
-        <div class="login-logo" id="owl-logo"></div>
+        <div class="login-logo login-logo--img">
+          <img src="assets/athenium-logo.png" alt="Athenium" class="login-logo-img">
+        </div>
         <div class="brand-name">Athenium</div>
         <p class="login-hint">Insira as informações abaixo para entrar</p>
 
@@ -40,8 +42,6 @@
 <script src="js/app.js"></script>
 <script src="js/data.js"></script>
 <script>
-  document.getElementById("owl-logo").innerHTML = owlSVG(56);
-  document.getElementById("owl-logo").style.color = "#fff";
   document.getElementById("icon-user").innerHTML = ICONS.user;
   document.getElementById("icon-lock").innerHTML = ICONS.lock;
 
